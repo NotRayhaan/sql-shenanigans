@@ -1,16 +1,20 @@
-### Experiments and learnings for and around SQL
-
-# SQL commands:
-
-`service mysql start`  
-`sudo systemctl status mysql.service`
-
 # Database:
 
 ### Microsoft Northwind Trader Database
+
+### [Wiki link](https://en.wikiversity.org/wiki/Database_Examples/Northwind)
 
 ![alt text](image.png)
 
 # Backend:
 
 ### C#/.NET
+
+# Frontend:
+
+###
+
+# SQL commands:
+
+`service mysql start`  
+`sudo systemctl status mysql.service`
