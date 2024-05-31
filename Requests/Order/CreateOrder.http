@@ -1,0 +1,9 @@
+POST http://localhost:5028/orders
+Content-Type: application/json
+
+{
+    "CustomerId": "00000000-0000-0000-0000-000000000001",
+    "EmployeeId": "00000000-0000-0000-0000-000000000001",
+    "OrderDate": "2024-05-31",
+    "ShipperId": "00000000-0000-0000-0000-000000000001"
+}

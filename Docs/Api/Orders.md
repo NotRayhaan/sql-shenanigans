@@ -19,15 +19,15 @@
 ### Create Order Request
 
 ```
-POST /Order
+POST /Orders
 ```
 
 ```
 {
-    "CustomerID": "90",
-    "EmployeeID": "5",
+    "CustomerID": "00000000-0000-0000-0000-000000000001",
+    "EmployeeID": "00000000-0000-0000-0000-000000000001",
     "OrderDate": "1996-07-04 ",
-    "ShipperID": "3",
+    "ShipperID": "00000000-0000-0000-0000-000000000001",
 }
 ```
 
@@ -43,11 +43,11 @@ Location: {{host}}/Orders/{{id}}
 
 ```
 {
-    "OrderID": "10248",
-    "CustomerID": "90",
-    "EmployeeID": "5",
+    "OrderID": "00000000-0000-0000-0000-000000000001",
+    "CustomerID": "00000000-0000-0000-0000-000000000001",
+    "EmployeeID": "00000000-0000-0000-0000-000000000001",
     "OrderDate": "1996-07-04 ",
-    "ShipperID": "3",
+    "ShipperID": "00000000-0000-0000-0000-000000000001",
 }
 ```
 
@@ -81,7 +81,7 @@ GET /orders/{{id}}
 ### Update Order Request
 
 ```
-Put /Order
+Put /Orders
 ```
 
 ```
