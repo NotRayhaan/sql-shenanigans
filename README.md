@@ -1,3 +1,10 @@
+# Run dotnet project:
+
+```
+cd NorthwindTrades
+dotnet run --project ./NorthwindTrades
+```
+
 # Database:
 
 ### Microsoft Northwind Trader Database
