@@ -6,6 +6,6 @@ public interface IOrderService
 {
     void CreateOrder(Order order);
     void DeleteOrder(Guid id);
-    Order GetOrder(Guid id);
+    Order? GetOrder(Guid id);
     void UpsertOrder(Order order);
 }

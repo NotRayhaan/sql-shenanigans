@@ -45,7 +45,9 @@ public class OrdersController : ControllerBase
     [HttpGet("{id:guid}")]
     public IActionResult GetOrder(Guid id)
     {
-        Order order = _orderService.GetOrder(id);
+        Order? order = _orderService.GetOrder(id);
+        if (order == null) return NotFound();
+
         var response = new Order(
             order.OrderId,
             order.CustomerId,

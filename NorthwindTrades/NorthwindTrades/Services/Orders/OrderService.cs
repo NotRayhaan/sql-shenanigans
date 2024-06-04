@@ -12,10 +12,10 @@ public class OrderService : IOrderService
     }
 
 
-    public Order GetOrder(Guid id)
+    public Order? GetOrder(Guid id)
     {
         // Todo: repository and store in mysql db
-        return _orders[id];
+        return _orders.TryGetValue(id, out Order? value) ? value : null;
     }
     public void UpsertOrder(Order order)
     {
