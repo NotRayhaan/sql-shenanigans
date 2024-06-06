@@ -5,7 +5,7 @@ namespace NorthwindTrades.Services.Orders;
 public interface IOrderService
 {
     void CreateOrder(Order order);
-    void DeleteOrder(Guid id);
-    Order? GetOrder(Guid id);
+    void DeleteOrder(int id);
+    Order? GetOrder(int id);
     void UpsertOrder(Order order);
 }

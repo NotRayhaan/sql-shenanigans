@@ -4,7 +4,7 @@ namespace NorthwindTrades.Services.Orders;
 
 public class OrderService : IOrderService
 {
-    private static readonly Dictionary<Guid, Order> _orders = new();
+    private static readonly Dictionary<int, Order> _orders = new();
     public void CreateOrder(Order order)
     {
         // Todo: repository and store in mysql db
@@ -12,7 +12,7 @@ public class OrderService : IOrderService
     }
 
 
-    public Order? GetOrder(Guid id)
+    public Order? GetOrder(int id)
     {
         // Todo: repository and store in mysql db
         return _orders.TryGetValue(id, out Order? value) ? value : null;
@@ -22,7 +22,7 @@ public class OrderService : IOrderService
         // Todo: repository and store in mysql db
         _orders[order.OrderId] = order;
     }
-    public void DeleteOrder(Guid id)
+    public void DeleteOrder(int id)
     {
         // Todo: repository and store in mysql db
         _orders.Remove(id);

@@ -2,7 +2,7 @@
 
 ```
 cd NorthwindTrades
-dotnet run --project ./NorthwindTrades
+dotnet watch run --project ./NorthwindTrades
 ```
 
 # Database:

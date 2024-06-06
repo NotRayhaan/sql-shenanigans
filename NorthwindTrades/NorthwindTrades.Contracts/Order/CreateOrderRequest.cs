@@ -1,8 +1,8 @@
 namespace Northwind.Contracts.Order;
 
 public record CreateOrderRequest(
-    Guid CustomerId,
-    Guid EmployeeID,
+    int CustomerId,
+    int EmployeeID,
     DateTime OrderDate,
-    Guid ShipperID
+    int ShipperID
 );

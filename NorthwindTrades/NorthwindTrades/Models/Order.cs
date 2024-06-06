@@ -1,22 +1,23 @@
 namespace NorthwindTrades.Models;
 
-public class Order{
+public class Order
+{
 
-    public Guid OrderId{get;}
-    public Guid CustomerId{get;}
-    public Guid EmployeeId{get;}
-    public DateTime OrderDate{get;}
-    public DateTime ModifiedDate{get;}
-    public Guid ShipperId{get;}
+    public int OrderId { get; set; }
+    public int CustomerId { get; set; }
+    public int EmployeeId { get; set; }
+    public DateTime OrderDate { get; set; }
+    // public DateTime ModifiedDate { get; set; }
+    public int ShipperId { get; set; }
 
-    public Order(Guid orderId, Guid customerId, Guid employeeId, DateTime orderDate, DateTime modifiedDate, Guid shipperId )
-    {
-        OrderId = orderId;
-        CustomerId = customerId;
-        EmployeeId = employeeId;
-        OrderDate = orderDate;
-        ModifiedDate = modifiedDate;
-        ShipperId = shipperId;
-    }
-    
+    // public Order(int orderId, int customerId, int employeeId, DateTime orderDate, DateTime modifiedDate, int shipperId)
+    // {
+    //     OrderId = orderId;
+    //     CustomerId = customerId;
+    //     EmployeeId = employeeId;
+    //     OrderDate = orderDate;
+    //     ModifiedDate = modifiedDate;
+    //     ShipperId = shipperId;
+    // }
+
 }
