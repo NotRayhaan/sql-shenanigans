@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Northwind.Contracts.Order;
 using NorthwindTrades.Data;
+using NorthwindTrades.Dtos.Order;
+using NorthwindTrades.Mappers;
 using NorthwindTrades.Models;
-using NorthwindTrades.Services.Orders;
 
 namespace NorthwindTrades.Controllers;
 
@@ -19,74 +19,58 @@ public class OrdersController : ControllerBase
     [HttpGet]
     public IActionResult GetOrders()
     {
-        List<Order> orders = _context.Orders.ToList();
+        IEnumerable<OrderDto> orders = _context.Orders.ToList().Select(s => s.toOrderDto());
         return Ok(orders);
     }
     [HttpGet("{id}")]
-    public IActionResult GetById([FromRoute] int id)
+    public IActionResult GetOrderById([FromRoute] Guid id)
     {
-        Order? order = _context.Orders.Find(id);
+        var order = _context.Orders.Find(id);
         if (order == null) return NotFound();
 
-        // var response = new Order(
-        //     order.OrderId,
-        //     order.CustomerId,
-        //     order.EmployeeId,
-        //     order.OrderDate,
-        //     order.ModifiedDate,
-        //     order.ShipperId
-        // );
-        return Ok(order);
+        return Ok(order.toOrderDto());
     }
-    // [HttpPost]
-    // public IActionResult CreateOrder(CreateOrderRequest request)
-    // {
-    //     var order = new Order(
-    //         Guid.NewGuid(),
-    //         request.CustomerId,
-    //         request.EmployeeID,
-    //         request.OrderDate,
-    //         DateTime.UtcNow,
-    //         request.ShipperID
-    //     );
+    [HttpPost]
+    public IActionResult CreateOrder([FromBody] CreateOrderRequestDto orderDto)
+    {
+        Order orderModel = orderDto.toOrderFromCreateDto();
 
-    //     _orderService.CreateOrder(order);
+        _context.Orders.Add(orderModel);
+        _context.SaveChanges();
 
-    //     var response = new OrderResponse(
-    //         order.OrderId,
-    //         order.CustomerId,
-    //         order.EmployeeId,
-    //         order.OrderDate,
-    //         order.ModifiedDate,
-    //         order.ShipperId
-    //     );
-    //     return CreatedAtAction(
-    //         actionName: nameof(GetOrder),
-    //         routeValues: new { id = order.OrderId },
-    //         value: response);
-    // }
+        return CreatedAtAction(
+            nameof(GetOrderById),
+            new { id = orderModel.OrderID },
+            orderModel.toOrderDto()
+        );
+    }
 
-    // [HttpPut("{id:guid}")]
-    // public IActionResult UpsertOrder(Guid id, UpsertOrderRequest request)
-    // {
-    //     var order = new Order(
-    //         id,
-    //         request.CustomerId,
-    //         request.EmployeeId,
-    //         request.OrderDate,
-    //         DateTime.UtcNow,
-    //         request.ShipperId
-    //     );
-    //     _orderService.UpsertOrder(order);
+    [HttpPut("{id}")]
+    public IActionResult UpdateOrder([FromRoute] Guid id, [FromBody] UpdateOrderRequestDto updateDto)
+    {
+        Order? orderModel = _context.Orders.FirstOrDefault(x => x.OrderID == id);
+        if (orderModel == null) return NotFound();
 
-    //     // Todo: return 201 if new order created
-    //     return NoContent();
-    // }
+        orderModel.CustomerID = updateDto.CustomerID;
+        orderModel.EmployeeID = updateDto.EmployeeID;
+        orderModel.OrderDate = updateDto.OrderDate;
+        orderModel.ModifiedDate = DateTime.UtcNow;
+        orderModel.ShipperID = updateDto.ShipperID;
 
-    // [HttpDelete("{id:guid}")]
-    // public IActionResult DeleteOrder(Guid id)
-    // {
-    //     _orderService.DeleteOrder(id);
-    //     return NoContent();
-    // }
+        _context.SaveChanges();
+
+        return Ok(orderModel.toOrderDto());
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteOrder([FromRoute] Guid id)
+    {
+        Order? orderModel = _context.Orders.FirstOrDefault(x => x.OrderID == id);
+        if (orderModel == null) return NoContent();
+
+        _context.Orders.Remove(orderModel);
+        _context.SaveChanges();
+
+        return NoContent();
+    }
 }

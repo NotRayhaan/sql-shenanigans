@@ -1,10 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+namespace NorthwindTrades.Dtos.Order;
 
-namespace NorthwindTrades.Models;
-
-public class Order
+public class OrderDto
 {
-
     public Guid OrderID { get; set; }
     public int CustomerID { get; set; }
     public int EmployeeID { get; set; }
