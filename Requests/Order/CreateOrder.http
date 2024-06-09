@@ -1,9 +1,0 @@
-POST http://localhost:5028/orders
-Content-Type: application/json
-
-{
-     "CustomerID": "11",
-    "EmployeeID": "1",
-    "OrderDate": "2024-03-22",
-    "ShipperID": "2"
-}

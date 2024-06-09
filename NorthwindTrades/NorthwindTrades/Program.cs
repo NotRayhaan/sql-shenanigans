@@ -12,6 +12,7 @@ var connectionString = builder.Configuration["ConnectionString"];
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     });
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+    builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
 }
 
 var app = builder.Build();

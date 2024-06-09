@@ -1,4 +1,0 @@
-@id=09ba0a8e-0944-4f94-a832-a19705dc3ca0
-
-DELETE  http://localhost:5028/orders/{{id}}
-

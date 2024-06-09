@@ -1,15 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+namespace NorthwindTrades.Dtos.OrderDetails;
 
-namespace NorthwindTrades.Models;
-
-public class OrderDetails
+public class CreateOrderDetailsRequestDto
 {
-
-    [Key]
     public int OrderDetailID { get; set; }
     public Guid OrderID { get; set; }
     public int ProductID { get; set; }
     public int Quantity { get; set; }
-
-
 }
