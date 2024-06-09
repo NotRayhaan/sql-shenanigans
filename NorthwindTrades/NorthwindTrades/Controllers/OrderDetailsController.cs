@@ -20,7 +20,7 @@ public class OrderDetailsController : ControllerBase
     public async Task<IActionResult> GetOrderDetails()
     {
         List<OrderDetails> orderDetails = await _orderDetailsRepository.GetAllAsync();
-        IEnumerable<OrderDetailsDto> orderDto = orderDetails.Select(s => s.toOrderDetailsDto());
+        List<OrderDetailsDto> orderDto = orderDetails.Select(s => s.toOrderDetailsDto()).ToList();
 
         return Ok(orderDetails);
     }

@@ -1,3 +1,5 @@
+using NorthwindTrades.Dtos.OrderDetails;
+
 namespace NorthwindTrades.Dtos.Order;
 
 public class OrderDto
@@ -8,4 +10,5 @@ public class OrderDto
     public DateTime OrderDate { get; set; }
     public DateTime ModifiedDate { get; set; }
     public int ShipperID { get; set; }
+    public List<OrderDetailsDto> OrderDetails { get; set; }
 }

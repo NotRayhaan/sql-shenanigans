@@ -15,6 +15,7 @@ public static class OrderMappers
             OrderDate = orderModel.OrderDate,
             ModifiedDate = orderModel.ModifiedDate,
             ShipperID = orderModel.ShipperID,
+            OrderDetails = orderModel.OrderDetails.Select(c => c.toOrderDetailsDto()).ToList()
         };
     }
     public static Order toOrderFromCreateDto(this CreateOrderRequestDto orderDto)

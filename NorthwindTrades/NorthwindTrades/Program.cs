@@ -13,6 +13,11 @@ var connectionString = builder.Configuration["ConnectionString"];
     });
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
     builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+    // prevent object cycles
+    builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    });
 }
 
 var app = builder.Build();

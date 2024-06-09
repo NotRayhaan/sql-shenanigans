@@ -20,7 +20,7 @@ public class OrdersController : ControllerBase
     public async Task<IActionResult> GetOrders()
     {
         List<Order> orders = await _orderRepository.GetAllAsync();
-        IEnumerable<OrderDto> orderDto = orders.Select(s => s.toOrderDto());
+        List<OrderDto> orderDto = orders.Select(s => s.toOrderDto()).ToList();
 
         return Ok(orders);
     }
