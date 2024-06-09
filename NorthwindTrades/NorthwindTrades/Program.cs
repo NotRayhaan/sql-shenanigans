@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using NorthwindTrades.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration["ConnectionString"];
 {
     builder.Services.AddControllers();
     builder.Services.AddDbContext<ApplicationDBContext>(options =>
