@@ -13,6 +13,7 @@ public static class OrderDetailsMappers
             OrderID = orderDetailsModel.OrderID,
             ProductID = orderDetailsModel.ProductID,
             Quantity = orderDetailsModel.Quantity,
+            Product = orderDetailsModel.Product.toProductDto()
         };
     }
     public static OrderDetails toOrderDetailsFromCreateDto(this CreateOrderDetailsRequestDto orderDetailsDto)

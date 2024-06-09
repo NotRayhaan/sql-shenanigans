@@ -1,3 +1,6 @@
+
+using NorthwindTrades.Dtos.Product;
+
 namespace NorthwindTrades.Dtos.OrderDetails;
 
 public class OrderDetailsDto
@@ -6,4 +9,5 @@ public class OrderDetailsDto
     public Guid OrderID { get; set; }
     public int ProductID { get; set; }
     public int Quantity { get; set; }
+    public ProductDto Product { get; set; }
 }

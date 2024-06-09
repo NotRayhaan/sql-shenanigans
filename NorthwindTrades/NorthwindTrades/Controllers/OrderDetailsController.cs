@@ -20,9 +20,9 @@ public class OrderDetailsController : ControllerBase
     public async Task<IActionResult> GetOrderDetails()
     {
         List<OrderDetails> orderDetails = await _orderDetailsRepository.GetAllAsync();
-        List<OrderDetailsDto> orderDto = orderDetails.Select(s => s.toOrderDetailsDto()).ToList();
+        List<OrderDetailsDto> orderDetailsDto = orderDetails.Select(s => s.toOrderDetailsDto()).ToList();
 
-        return Ok(orderDetails);
+        return Ok(orderDetailsDto);
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderDetailsById([FromRoute] int id)

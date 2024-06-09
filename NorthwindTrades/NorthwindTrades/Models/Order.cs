@@ -1,9 +1,11 @@
 
+using System.ComponentModel.DataAnnotations;
+
 namespace NorthwindTrades.Models;
 
 public class Order
 {
-
+    [Key]
     public Guid OrderID { get; set; }
     public int CustomerID { get; set; }
     public int EmployeeID { get; set; }

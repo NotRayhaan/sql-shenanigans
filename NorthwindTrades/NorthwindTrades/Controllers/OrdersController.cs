@@ -22,7 +22,7 @@ public class OrdersController : ControllerBase
         List<Order> orders = await _orderRepository.GetAllAsync();
         List<OrderDto> orderDto = orders.Select(s => s.toOrderDto()).ToList();
 
-        return Ok(orders);
+        return Ok(orderDto);
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById([FromRoute] Guid id)

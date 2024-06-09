@@ -13,6 +13,7 @@ var connectionString = builder.Configuration["ConnectionString"];
     });
     builder.Services.AddScoped<IOrderRepository, OrderRepository>();
     builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+    builder.Services.AddScoped<IProductRepository, ProductRepository>();
     // prevent object cycles
     builder.Services.AddControllers().AddNewtonsoftJson(options =>
     {
