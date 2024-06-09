@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NorthwindTrades.Data;
 using NorthwindTrades.Dtos.Order;
+using NorthwindTrades.Interfaces;
 using NorthwindTrades.Mappers;
 using NorthwindTrades.Models;
 
@@ -11,16 +10,16 @@ namespace NorthwindTrades.Controllers;
 [Route("[controller]")]
 public class OrdersController : ControllerBase
 {
-    private readonly ApplicationDBContext _context;
-    public OrdersController(ApplicationDBContext context)
+    private readonly IOrderRepository _orderRepository;
+    public OrdersController(IOrderRepository orderRepository)
     {
-        _context = context;
+        _orderRepository = orderRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetOrders()
     {
-        List<Order> orders = await _context.Orders.ToListAsync();
+        List<Order> orders = await _orderRepository.GetAllAsync();
         IEnumerable<OrderDto> orderDto = orders.Select(s => s.toOrderDto());
 
         return Ok(orders);
@@ -28,7 +27,7 @@ public class OrdersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById([FromRoute] Guid id)
     {
-        var order = await _context.Orders.FindAsync(id);
+        var order = await _orderRepository.GetByIdAsync(id);
         if (order == null) return NotFound();
 
         return Ok(order.toOrderDto());
@@ -37,9 +36,8 @@ public class OrdersController : ControllerBase
     public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestDto orderDto)
     {
         Order orderModel = orderDto.toOrderFromCreateDto();
+        await _orderRepository.CreateAsync(orderModel);
 
-        await _context.Orders.AddAsync(orderModel);
-        await _context.SaveChangesAsync();
 
         return CreatedAtAction(
             nameof(GetOrderById),
@@ -51,16 +49,8 @@ public class OrdersController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateOrder([FromRoute] Guid id, [FromBody] UpdateOrderRequestDto updateDto)
     {
-        Order? orderModel = await _context.Orders.FirstOrDefaultAsync(x => x.OrderID == id);
+        Order? orderModel = await _orderRepository.UpdateAsync(id, updateDto);
         if (orderModel == null) return NotFound();
-
-        orderModel.CustomerID = updateDto.CustomerID;
-        orderModel.EmployeeID = updateDto.EmployeeID;
-        orderModel.OrderDate = updateDto.OrderDate;
-        orderModel.ModifiedDate = DateTime.UtcNow;
-        orderModel.ShipperID = updateDto.ShipperID;
-
-        await _context.SaveChangesAsync();
 
         return Ok(orderModel.toOrderDto());
     }
@@ -68,11 +58,9 @@ public class OrdersController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrder([FromRoute] Guid id)
     {
-        Order? orderModel = await _context.Orders.FirstOrDefaultAsync(x => x.OrderID == id);
-        if (orderModel == null) return NoContent();
 
-        _context.Orders.Remove(orderModel);
-        await _context.SaveChangesAsync();
+        Order? order = await _orderRepository.DeleteAsync(id);
+        if (order == null) return NotFound();
 
         return NoContent();
     }

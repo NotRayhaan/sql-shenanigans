@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NorthwindTrades.Data;
+using NorthwindTrades.Interfaces;
+using NorthwindTrades.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["ConnectionString"];
@@ -9,6 +11,7 @@ var connectionString = builder.Configuration["ConnectionString"];
     {
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
     });
+    builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 }
 
 var app = builder.Build();
