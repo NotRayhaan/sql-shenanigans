@@ -35,12 +35,12 @@ public class OrderRepository : IOrderRepository
 
     public async Task<List<Order>> GetAllAsync()
     {
-        return await _context.Orders.Include(c => c.OrderDetails).ToListAsync();
+        return await _context.Orders.Include(c => c.OrderDetails).ThenInclude(d => d.Product).ToListAsync();
     }
 
     public async Task<Order?> GetByIdAsync(Guid id)
     {
-        return await _context.Orders.Include(c => c.OrderDetails).FirstOrDefaultAsync(i => i.OrderID == id);
+        return await _context.Orders.Include(c => c.OrderDetails).ThenInclude(d => d.Product).FirstOrDefaultAsync(i => i.OrderID == id);
     }
 
     public async Task<Order?> UpdateAsync(Guid id, UpdateOrderRequestDto orderDto)

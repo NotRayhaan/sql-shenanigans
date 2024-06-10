@@ -1,3 +1,4 @@
+using NorthwindTrades.Dtos.Analytics;
 using NorthwindTrades.Dtos.Order;
 using NorthwindTrades.Models;
 
@@ -29,5 +30,17 @@ public static class OrderMappers
             OrderDate = orderDto.OrderDate,
             ShipperID = orderDto.ShipperID,
         };
+    }
+    /// TODO put into analytics
+    public static List<TradeDto> toTradeDto(this Order orderModel)
+    {
+        return orderModel.OrderDetails.Select(orderDetails =>
+        new TradeDto
+        {
+            OrderDate = orderModel.OrderDate,
+            Quantity = orderDetails.Quantity,
+            Price = orderDetails.Product.Price,
+        }
+        ).ToList();
     }
 }
