@@ -3,6 +3,8 @@ using NorthwindTrades.Data;
 using NorthwindTrades.Interfaces;
 using NorthwindTrades.Repository;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration["ConnectionString"];
 {
@@ -19,12 +21,25 @@ var connectionString = builder.Configuration["ConnectionString"];
     {
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     });
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: MyAllowSpecificOrigins,
+                        policy =>
+                        {
+                            policy
+                                .WithOrigins("http://localhost:3000")
+                                .AllowAnyMethod()
+                                .AllowAnyHeader()
+                                .AllowCredentials();
+                        });
+    });
 }
 
 var app = builder.Build();
 {
     app.UseExceptionHandler("/error");
     app.UseHttpsRedirection();
+    app.UseCors(MyAllowSpecificOrigins);
     app.MapControllers();
     app.Run();
 }
