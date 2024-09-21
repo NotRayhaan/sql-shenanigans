@@ -38,7 +38,6 @@ public class OrdersController : ControllerBase
         Order orderModel = orderDto.toOrderFromCreateDto();
         await _orderRepository.CreateAsync(orderModel);
 
-
         return CreatedAtAction(
             nameof(GetOrderById),
             new { id = orderModel.OrderID },

@@ -12,5 +12,5 @@ public class Order
     public DateTime OrderDate { get; set; }
     public DateTime ModifiedDate { get; set; }
     public int ShipperID { get; set; }
-    public List<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
+    public List<OrderDetails> OrderDetails { get; set; } = [];
 }

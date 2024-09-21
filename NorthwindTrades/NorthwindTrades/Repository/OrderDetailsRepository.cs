@@ -15,7 +15,9 @@ public class OrderDetailsRepository : IOrderDetailsRepository
     }
     public async Task<OrderDetails> CreateAsync(OrderDetails orderDetailsModel)
     {
-        throw new NotImplementedException();
+        await _context.OrderDetails.AddAsync(orderDetailsModel);
+        await _context.SaveChangesAsync();
+        return orderDetailsModel;
     }
 
     public async Task<OrderDetails?> DeleteAsync(int id)

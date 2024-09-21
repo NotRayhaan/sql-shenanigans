@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NorthwindTrades.Dtos.CreateOrderDetails;
 using NorthwindTrades.Dtos.OrderDetails;
 using NorthwindTrades.Interfaces;
 using NorthwindTrades.Mappers;
@@ -11,16 +12,20 @@ namespace NorthwindTrades.Controllers;
 public class OrderDetailsController : ControllerBase
 {
     private readonly IOrderDetailsRepository _orderDetailsRepository;
-    public OrderDetailsController(IOrderDetailsRepository orderDetailsRepository)
+    private readonly IOrderRepository _orderRepository;
+    private readonly IProductRepository _productRepository;
+    public OrderDetailsController(IOrderDetailsRepository orderDetailsRepository, IOrderRepository orderRepository, IProductRepository productRepository)
     {
         _orderDetailsRepository = orderDetailsRepository;
+        _orderRepository = orderRepository;
+        _productRepository = productRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetOrderDetails()
     {
         List<OrderDetails> orderDetails = await _orderDetailsRepository.GetAllAsync();
-        List<OrderDetailsDto> orderDetailsDto = orderDetails.Select(s => s.toOrderDetailsDto()).ToList();
+        List<OrderDetailsDto> orderDetailsDto = orderDetails.Select(s => s.ToOrderDetailsDto()).ToList();
 
         return Ok(orderDetailsDto);
     }
@@ -30,6 +35,34 @@ public class OrderDetailsController : ControllerBase
         var orderDetails = await _orderDetailsRepository.GetByIdAsync(id);
         if (orderDetails == null) return NotFound();
 
-        return Ok(orderDetails.toOrderDetailsDto());
+        return Ok(orderDetails.ToOrderDetailsDto());
+    }
+
+    [HttpPost("{orderId}")]
+    public async Task<IActionResult> Create([FromRoute] Guid orderId, CreateOrderDetailsDto createOrderDetailsDto)
+    {
+        if (!await _orderRepository.OrderExists(orderId))
+        {
+            return BadRequest("Order does not exist");
+        }
+
+        var orderDetailsModel = createOrderDetailsDto.ToOrderDetailsFromCreateDto(orderId);
+        var product = await _productRepository.GetByIdAsync(orderDetailsModel.ProductID);
+        if (product != null)
+        {
+            orderDetailsModel.Product = product;
+        }
+        else
+        {
+            return BadRequest("Order does not exist");
+        }
+
+        await _orderDetailsRepository.CreateAsync(orderDetailsModel);
+
+        return CreatedAtAction(
+            nameof(GetOrderDetailsById),
+            new { id = orderDetailsModel.OrderDetailID },
+            orderDetailsModel.ToOrderDetailsDto()
+        );
     }
 }

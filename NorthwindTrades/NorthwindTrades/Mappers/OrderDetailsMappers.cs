@@ -1,3 +1,4 @@
+using NorthwindTrades.Dtos.CreateOrderDetails;
 using NorthwindTrades.Dtos.OrderDetails;
 using NorthwindTrades.Models;
 
@@ -5,7 +6,7 @@ namespace NorthwindTrades.Mappers;
 
 public static class OrderDetailsMappers
 {
-    public static OrderDetailsDto toOrderDetailsDto(this OrderDetails orderDetailsModel)
+    public static OrderDetailsDto ToOrderDetailsDto(this OrderDetails orderDetailsModel)
     {
         return new OrderDetailsDto
         {
@@ -16,11 +17,11 @@ public static class OrderDetailsMappers
             Product = orderDetailsModel.Product.toProductDto()
         };
     }
-    public static OrderDetails toOrderDetailsFromCreateDto(this CreateOrderDetailsRequestDto orderDetailsDto)
+    public static OrderDetails ToOrderDetailsFromCreateDto(this CreateOrderDetailsDto orderDetailsDto, Guid orderId)
     {
         return new OrderDetails
         {
-            OrderID = orderDetailsDto.OrderID,
+            OrderID = orderId,
             ProductID = orderDetailsDto.ProductID,
             Quantity = orderDetailsDto.Quantity,
         };

@@ -11,4 +11,5 @@ public interface IOrderRepository
     Task<Order> CreateAsync(Order orderModel);
     Task<Order?> UpdateAsync(Guid id, UpdateOrderRequestDto orderDto);
     Task<Order?> DeleteAsync(Guid id);
+    Task<bool> OrderExists(Guid id);
 }

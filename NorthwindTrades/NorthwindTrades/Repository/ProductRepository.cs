@@ -23,4 +23,8 @@ public class ProductRepository : IProductRepository
         return await _context.Products.FindAsync(id);
     }
 
+    public Task<bool> ProductExists(int id)
+    {
+        return _context.Products.AnyAsync(o => o.ProductID == id);
+    }
 }

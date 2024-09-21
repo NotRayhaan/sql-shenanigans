@@ -43,6 +43,11 @@ public class OrderRepository : IOrderRepository
         return await _context.Orders.Include(c => c.OrderDetails).ThenInclude(d => d.Product).FirstOrDefaultAsync(i => i.OrderID == id);
     }
 
+    public Task<bool> OrderExists(Guid id)
+    {
+        return _context.Orders.AnyAsync(o => o.OrderID == id);
+    }
+
     public async Task<Order?> UpdateAsync(Guid id, UpdateOrderRequestDto orderDto)
     {
         Order? orderModel = await _context.Orders.FirstOrDefaultAsync(x => x.OrderID == id);
