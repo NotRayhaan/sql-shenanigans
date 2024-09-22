@@ -21,7 +21,14 @@ public class OrderDetailsRepository : IOrderDetailsRepository
 
     public async Task<OrderDetails?> DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var orderDetailsModel = await _context.OrderDetails.FirstOrDefaultAsync(x => x.OrderDetailID == id);
+
+        if (orderDetailsModel == null) { return null; }
+
+        _context.OrderDetails.Remove(orderDetailsModel);
+
+        await _context.SaveChangesAsync();
+        return orderDetailsModel;
     }
 
     public async Task<List<OrderDetails>> GetAllAsync()

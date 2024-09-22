@@ -9,5 +9,5 @@ public interface IOrderDetailsRepository
     Task<OrderDetails?> GetByIdAsync(int id);
     Task<OrderDetails> CreateAsync(OrderDetails orderDetailsModel);
     Task<OrderDetails?> UpdateAsync(int id, OrderDetails orderDetailsModel);
-    // Task<OrderDetails?> DeleteAsync(int id);
+    Task<OrderDetails?> DeleteAsync(int id);
 }

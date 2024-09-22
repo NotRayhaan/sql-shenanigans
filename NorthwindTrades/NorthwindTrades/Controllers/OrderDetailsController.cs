@@ -66,8 +66,8 @@ public class OrderDetailsController : ControllerBase
         );
     }
 
-    [HttpPut("{orderDetailsId}")]
-    public async Task<IActionResult> Update([FromRoute] int orderDetailsId, [FromBody] UpdateOrderDetailsRequestDto updateDto)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateOrderDetailsRequestDto updateDto)
     {
 
         var orderDetailsModel = updateDto.ToOrderDetailsFromUpdateDto();
@@ -84,7 +84,7 @@ public class OrderDetailsController : ControllerBase
         {
             return BadRequest("Product does not exist");
         }
-        var orderDetails = await _orderDetailsRepository.UpdateAsync(orderDetailsId, orderDetailsModel);
+        var orderDetails = await _orderDetailsRepository.UpdateAsync(id, orderDetailsModel);
 
         if (orderDetails == null)
         {
@@ -93,5 +93,18 @@ public class OrderDetailsController : ControllerBase
 
 
         return Ok(orderDetails.ToOrderDetailsDto());
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete([FromRoute] int id)
+    {
+        var orderDetails = await _orderDetailsRepository.DeleteAsync(id);
+
+        if (orderDetails == null)
+        {
+            return NotFound("Order Details not found");
+        }
+
+        return Ok(orderDetails);
     }
 }
