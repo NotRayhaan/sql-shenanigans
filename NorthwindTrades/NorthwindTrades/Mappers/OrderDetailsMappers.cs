@@ -26,4 +26,12 @@ public static class OrderDetailsMappers
             Quantity = orderDetailsDto.Quantity,
         };
     }
+    public static OrderDetails ToOrderDetailsFromUpdateDto(this UpdateOrderDetailsRequestDto orderDetailsDto)
+    {
+        return new OrderDetails
+        {
+            Quantity = orderDetailsDto.Quantity,
+            ProductID = orderDetailsDto.ProductID
+        };
+    }
 }

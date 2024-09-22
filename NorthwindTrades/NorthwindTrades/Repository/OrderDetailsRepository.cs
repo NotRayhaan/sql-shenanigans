@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using NorthwindTrades.Data;
-using NorthwindTrades.Dtos.OrderDetails;
 using NorthwindTrades.Interfaces;
 using NorthwindTrades.Models;
 
@@ -35,8 +34,21 @@ public class OrderDetailsRepository : IOrderDetailsRepository
         return await _context.OrderDetails.Include(c => c.Product).FirstOrDefaultAsync(i => i.OrderDetailID == id);
     }
 
-    public async Task<OrderDetails?> UpdateAsync(int id, UpdateOrderDetailsRequestDto ordeDetailsrDto)
+    public async Task<OrderDetails?> UpdateAsync(int id, OrderDetails orderDetailsModel)
     {
-        throw new NotImplementedException();
+        var existingOrderDetails = await _context.OrderDetails.FindAsync(id);
+
+        if (existingOrderDetails == null)
+        {
+            return null;
+        }
+
+        existingOrderDetails.Quantity = orderDetailsModel.Quantity;
+        existingOrderDetails.Product = orderDetailsModel.Product;
+        existingOrderDetails.ProductID = orderDetailsModel.ProductID;
+
+        await _context.SaveChangesAsync();
+
+        return existingOrderDetails;
     }
 }

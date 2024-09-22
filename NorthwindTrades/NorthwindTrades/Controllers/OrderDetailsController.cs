@@ -54,7 +54,7 @@ public class OrderDetailsController : ControllerBase
         }
         else
         {
-            return BadRequest("Order does not exist");
+            return BadRequest("Product does not exist");
         }
 
         await _orderDetailsRepository.CreateAsync(orderDetailsModel);
@@ -64,5 +64,34 @@ public class OrderDetailsController : ControllerBase
             new { id = orderDetailsModel.OrderDetailID },
             orderDetailsModel.ToOrderDetailsDto()
         );
+    }
+
+    [HttpPut("{orderDetailsId}")]
+    public async Task<IActionResult> Update([FromRoute] int orderDetailsId, [FromBody] UpdateOrderDetailsRequestDto updateDto)
+    {
+
+        var orderDetailsModel = updateDto.ToOrderDetailsFromUpdateDto();
+
+        var product = await _productRepository.GetByIdAsync(updateDto.ProductID);
+
+        using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
+
+        if (product != null)
+        {
+            orderDetailsModel.Product = product;
+        }
+        else
+        {
+            return BadRequest("Product does not exist");
+        }
+        var orderDetails = await _orderDetailsRepository.UpdateAsync(orderDetailsId, orderDetailsModel);
+
+        if (orderDetails == null)
+        {
+            return NotFound("Order Details not found");
+        }
+
+
+        return Ok(orderDetails.ToOrderDetailsDto());
     }
 }
